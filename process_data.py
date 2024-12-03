@@ -62,6 +62,9 @@ def main():
     # data['reviews count'] = data['reviews count'].apply(lambda x: int(x) if '.' not in x else int(x.replace('.', '')))
     # data['type'] = data['hotel'].apply(clarify_type)
     # data['note'] = data['note'].apply(lambda x: x.type())
+    data['note'] = data['note'].apply(lambda x: 0 if pd.isna(x)  else 1)
+    data = data.rename(columns={'note': 'beach'})
+    data.drop('location', inplace=True, axis=1) 
     data.to_csv('processed_data.csv', index = False)
 
 if __name__ == '__main__':
