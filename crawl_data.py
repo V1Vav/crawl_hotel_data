@@ -13,10 +13,23 @@ def main():
     with sync_playwright() as p:
         
         # IMPORTANT: Change dates to future dates, otherwise it won't work
-        checkin_date = '2024-12-01'
-        checkout_date = '2024-12-02'
-        # locations = ['Hội An']
-        locations = ['Hà Nội', 'Huế', 'TP. Hồ Chí Minh', 'Đà Nẵng', 'Đà Lạt', 'Hội An']
+        checkin_date = '2025-01-10'
+        checkout_date = '2025-01-11'
+        locations = ['Hội An']
+        locations = ["An Giang", "Bà Rịa - Vũng Tàu", "Bạc Liêu", "Bắc Kạn", "Bắc Giang", 
+                "Bắc Ninh", "Bến Tre", "Bình Dương", "Bình Định", "Bình Phước", 
+                "Bình Thuận", "Cà Mau", "Cao Bằng", "Cần Thơ", "Đà Nẵng", 
+                "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", 
+                "Gia Lai", "Hà Giang", "Hà Nam", "Hà Nội", "Hà Tĩnh", 
+                "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình", "Hưng Yên", 
+                "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng", 
+                "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An", 
+                "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Phú Yên", "Quảng Bình", 
+                "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", 
+                "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa", 
+                "Thừa Thiên Huế", "Tiền Giang", "TP. Hồ Chí Minh", "Trà Vinh", "Tuyên Quang", 
+                "Vĩnh Long", "Vĩnh Phúc", "Yên Bái"
+        ]
         hotels_list = []
 
         browser = p.chromium.launch(headless=False)
@@ -42,7 +55,7 @@ def main():
             page.evaluate("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(scroll_pause_time)
             
-            load_more = 2
+            load_more = 8
 
             for i in range(load_more):
 
@@ -67,7 +80,7 @@ def main():
                         # print('2')
                         hotel_dict['address'] = hotel.locator('span[data-testid="address"]').inner_text()
                         # print('3')
-                        hotel_dict['location'] = hotel.locator('span[data-testid="distance"]').inner_text() 
+                        hotel_dict['location'] = hotel.locator('span[data-testid="distance"]').inner_text() if hotel.locator('span[data-testid="distance"]').is_visible() else 'None'
                         # print('4')
                         hotel_dict['note'] = hotel.locator('span.abf093bdfe.b058f54b9a').inner_text() if hotel.locator('span.abf093bdfe.b058f54b9a').is_visible() else 'None'
                         # print('5')
